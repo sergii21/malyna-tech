@@ -1,0 +1,30 @@
+rules_version = '2';
+
+// Правила доступу до бази Malyna Tech.
+// Опублікуйте їх у Firebase Console → Firestore Database → Rules,
+// замінивши OWNER_UID на свій UID (адмінка покаже його після першого входу).
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isOwner() {
+      return request.auth != null && request.auth.uid == 'OWNER_UID';
+    }
+
+    // Проєкти бачать усі, змінює лише власник.
+    match /projects/{id} {
+      allow read: if true;
+      allow write: if isOwner();
+    }
+
+    // Приватна документація: лише власник.
+    match /docs/{id} {
+      allow read, write: if isOwner();
+    }
+
+    // Усе інше закрито.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

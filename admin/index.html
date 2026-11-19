@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Malyna Tech — кабінет власника</title>
+  <link rel="icon" href="../assets/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body class="admin">
+  <header class="top">
+    <div class="wrap top__in">
+      <a class="brand" href="../">
+        <img src="../assets/logo.svg" alt="" width="34" height="34">
+        <span>Malyna<b>Tech</b></span>
+      </a>
+      <div class="who" id="who" hidden>
+        <span id="who-name"></span>
+        <button class="btn btn--sm" id="signout" type="button">Вийти</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Firebase ще не підключено -->
+    <section class="panel panel--center" id="view-setup" hidden>
+      <h1>Базу ще не підключено</h1>
+      <p>Приватна частина зберігає документи у Firestore (Google Cloud). Залишилось один раз налаштувати Firebase:</p>
+      <ol>
+        <li>Створіть проєкт на <code>console.firebase.google.com</code> і додайте Web app.</li>
+        <li>Увімкніть <b>Authentication → Google</b> та <b>Firestore Database</b>.</li>
+        <li>У <b>Authentication → Settings → Authorized domains</b> додайте <code>sergii21.github.io</code>.</li>
+        <li>Вставте конфіг у <code>assets/firebase-config.js</code> і запуште.</li>
+      </ol>
+      <p style="margin-top:16px">Покрокова інструкція — у README репозиторію.</p>
+    </section>
+
+    <!-- Вхід -->
+    <section class="panel panel--center" id="view-login" hidden>
+      <h1>Кабінет власника</h1>
+      <p>Документація та керування проєктами. Доступ лише для власника компанії.</p>
+      <button class="btn btn--primary" id="signin" type="button">Увійти через Google</button>
+      <p class="status is-err" id="login-err" style="margin-top:16px"></p>
+    </section>
+
+    <!-- Увійшов, але це не власник -->
+    <section class="panel panel--center" id="view-denied" hidden>
+      <h1>Немає доступу</h1>
+      <p>Цей акаунт не є власником. Якщо це ви налаштовуєте сайт уперше — скопіюйте свій UID у правила Firestore (рядок <code>OWNER_UID</code> у <code>firestore.rules</code>) і опублікуйте їх у Firebase Console.</p>
+      <code class="uid" id="uid"></code>
+      <button class="btn" id="retry" type="button">Перевірити ще раз</button>
+    </section>
+
+    <!-- Кабінет -->
+    <section id="view-app" hidden>
+      <div class="tabs" role="tablist">
+        <button class="chip is-active" data-tab="docs" type="button" role="tab">Документація</button>
+        <button class="chip" data-tab="projects" type="button" role="tab">Проєкти</button>
+      </div>
+
+      <div class="split" id="tab-docs">
+        <aside class="panel list">
+          <button class="btn btn--primary btn--sm" id="doc-new" type="button">+ Новий документ</button>
+          <div id="doc-list" class="list" style="padding:0"></div>
+        </aside>
+        <div class="panel editor">
+          <label>Назва<input id="doc-title" maxlength="200" placeholder="Напр.: Доступи до серверів"></label>
+          <div class="row">
+            <button class="chip is-active" id="doc-mode-edit" type="button">Редагувати</button>
+            <button class="chip" id="doc-mode-view" type="button">Перегляд</button>
+            <span class="status" id="doc-status"></span>
+          </div>
+          <textarea id="doc-body" placeholder="Текст у форматі Markdown…"></textarea>
+          <div class="prose" id="doc-preview" hidden></div>
+          <div class="row">
+            <button class="btn btn--primary" id="doc-save" type="button">Зберегти</button>
+            <button class="btn btn--danger" id="doc-del" type="button">Видалити</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="split" id="tab-projects" hidden>
+        <aside class="panel list">
+          <button class="btn btn--primary btn--sm" id="pr-new" type="button">+ Новий проєкт</button>
+          <button class="btn btn--sm" id="pr-import" type="button" hidden>Імпортувати стартовий список</button>
+          <div id="pr-list" class="list" style="padding:0"></div>
+        </aside>
+        <form class="panel editor" id="pr-form">
+          <p class="muted" style="font-size:.9rem">Ці записи бачать усі відвідувачі сайту в розділі «Проєкти».</p>
+          <div class="row--2">
+            <label>Назва<input name="title" required maxlength="120"></label>
+            <label>Назва англійською (необов'язково)<input name="title_en" maxlength="120"></label>
+          </div>
+          <div class="row--2">
+            <label>Рік<input name="year" type="number" min="2000" max="2100" required></label>
+            <label>Категорія
+              <select name="category">
+                <option value="web">Веб</option>
+                <option value="mobile">Мобільні</option>
+                <option value="fintech">Фінтех</option>
+                <option value="dashboard">Дашборди</option>
+              </select>
+            </label>
+          </div>
+          <label>Опис українською<textarea class="short" name="desc_uk" required maxlength="1200"></textarea></label>
+          <label>Опис англійською<textarea class="short" name="desc_en" maxlength="1200"></textarea></label>
+          <label>Технології (через кому)<input name="stack" placeholder="Angular, NgRx, Tailwind"></label>
+          <label>Посилання на код (https://…)<input name="repo" type="url" placeholder="https://github.com/…"></label>
+          <label class="check"><input name="private" type="checkbox"> Закритий код (посилання не показувати)</label>
+          <div class="row">
+            <button class="btn btn--primary" type="submit">Зберегти</button>
+            <button class="btn btn--danger" id="pr-del" type="button">Видалити</button>
+            <span class="status" id="pr-status"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="../assets/admin.js"></script>
+</body>
+</html>

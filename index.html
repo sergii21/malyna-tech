@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Malyna Tech — розробка веб, мобільних і фінтех-продуктів</title>
+  <meta name="description" content="Malyna Tech — IT-компанія з України. Вебзастосунки, мобільні продукти, фінтех-інтеграції та дашборди.">
+  <meta property="og:title" content="Malyna Tech">
+  <meta property="og:description" content="Робимо софт, який дозріває вчасно: веб, мобільні продукти, фінтех.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap top__in">
+      <a class="brand" href="#" aria-label="Malyna Tech">
+        <img src="assets/logo.svg" alt="" width="34" height="34">
+        <span>Malyna<b>Tech</b></span>
+      </a>
+      <nav class="nav" aria-label="Main">
+        <a href="#services" data-i18n="nav.services">Послуги</a>
+        <a href="#projects" data-i18n="nav.projects">Проєкти</a>
+        <a href="#stack" data-i18n="nav.stack">Стек</a>
+        <a href="#contact" data-i18n="nav.contact">Контакти</a>
+      </nav>
+      <button id="lang" class="lang" type="button" aria-label="Switch language">EN</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero__in">
+        <div>
+          <p class="kicker" data-i18n="hero.kicker">IT-компанія з України</p>
+          <h1 data-i18n-html="hero.title">Робимо софт, який <em>дозріває</em> вчасно</h1>
+          <p class="lead" data-i18n="hero.lead"></p>
+          <div class="actions">
+            <a class="btn btn--primary" href="#projects" data-i18n="hero.cta">Переглянути проєкти</a>
+            <a class="btn" href="#contact" data-i18n="hero.cta2">Написати нам</a>
+          </div>
+        </div>
+        <div class="hero__art" aria-hidden="true">
+          <img src="assets/logo.svg" alt="" width="280" height="280">
+        </div>
+      </div>
+      <div class="wrap">
+        <dl class="stats">
+          <div><dt id="stat-projects">–</dt><dd data-i18n="stat.projects">проєктів</dd></div>
+          <div><dt id="stat-years">–</dt><dd data-i18n="stat.years">рік першого проєкту</dd></div>
+          <div><dt id="stat-tech">–</dt><dd data-i18n="stat.tech">технологій у роботі</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section id="services" class="section">
+      <div class="wrap">
+        <h2 data-i18n="services.title">Що ми робимо</h2>
+        <div class="services">
+          <article><span class="num">01</span><h3 data-i18n="s1.t"></h3><p data-i18n="s1.d"></p></article>
+          <article><span class="num">02</span><h3 data-i18n="s2.t"></h3><p data-i18n="s2.d"></p></article>
+          <article><span class="num">03</span><h3 data-i18n="s3.t"></h3><p data-i18n="s3.d"></p></article>
+          <article><span class="num">04</span><h3 data-i18n="s4.t"></h3><p data-i18n="s4.d"></p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="section section--alt">
+      <div class="wrap">
+        <h2 data-i18n="projects.title">Проєкти</h2>
+        <p class="muted section__lead" data-i18n="projects.lead"></p>
+        <div id="filters" class="filters" role="group" aria-label="Filter"></div>
+        <div id="grid" class="grid"></div>
+      </div>
+    </section>
+
+    <section id="stack" class="section">
+      <div class="wrap">
+        <h2 data-i18n="stack.title">Технології</h2>
+        <ul id="stack-list" class="tags tags--big"></ul>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="wrap">
+        <div class="cta">
+          <h2 data-i18n="contact.title">Маєте ідею? Обговорімо</h2>
+          <p data-i18n="contact.lead"></p>
+          <a class="btn btn--light" href="https://github.com/sergii21" target="_blank" rel="noopener" data-i18n="contact.cta">Написати на GitHub</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot__in">
+      <span>© <span id="year"></span> Malyna Tech</span>
+      <a href="admin/" data-i18n="footer.admin">Вхід для власника</a>
+    </div>
+  </footer>
+
+  <script type="module" src="assets/app.js"></script>
+</body>
+</html>
